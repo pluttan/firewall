@@ -1,0 +1,12 @@
+{
+  "vpn_interface": "utun+",
+  "enabled": true,
+  "apps": [
+    {
+      "name": "Arc",
+      "app_path": "/Applications/Arc.app",
+      "username": "_vpnwall_arc",
+      "uid": 590
+    }
+  ]
+}
