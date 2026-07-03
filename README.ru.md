@@ -1,14 +1,9 @@
-![Header](header.png)
-
 <div align="center">
 
 # vpnwall
 
-**Kill-switch VPN для macOS с изоляцией по системным пользователям**
+**Kill-switch VPN для macOS с изоляцией приложений по системным пользователям**
 
-[![License](https://img.shields.io/badge/license-MIT-2C2C2C?style=for-the-badge&labelColor=1E1E1E)](LICENSE)
-[![Python](https://img.shields.io/badge/python-3.10+-2C2C2C?style=for-the-badge&logo=python&labelColor=1E1E1E)]()
-[![macOS](https://img.shields.io/badge/macos-10.15+-2C2C2C?style=for-the-badge&logo=apple&labelColor=1E1E1E)]()
 
 </div>
 
@@ -37,27 +32,14 @@
 
 </div>
 
-## ■ Запуск
+## ■ Как это работает
 
-```bash
-# Add an app to VPN-only mode
-sudo vpnwall add Arc
-
-# Enable firewall rules
-sudo vpnwall enable
-
-# Run app through VPN
-sudo vpnwall run Arc
-
-# Check status
-sudo vpnwall status
-
-# Set VPN interface
-sudo vpnwall set-interface utun3
-
-# Disable / remove
-sudo vpnwall disable
-sudo vpnwall remove Arc
+```
+1. Добавить приложение — создаётся отдельный системный пользователь `_vpnwall_` и регистрируется в config.json.
+2. Включить брандмауэр — загружаются правила pf, ограничивающие трафик TCP/UDP каждого пользователя-приложения только VPN-интерфейсом.
+3. Запустить приложение — запускается под его отдельным изолированным системным пользователем.
+4. Kill-switch — при отключении VPN pf блокирует весь исходящий трафик для настроенных пользователей-приложений.
+5. Автозапуск — LaunchDaemon автоматически включает правила брандмауэра при каждом старте системы.
 ```
 
 ## ■ Скриншоты
@@ -70,6 +52,29 @@ sudo vpnwall remove Arc
 
 </div>
 
-## ■ License
+## ■ Использование
+
+```bash
+# Добавить приложение в режим только через VPN
+sudo vpnwall add Arc
+
+# Включить правила брандмауэра
+sudo vpnwall enable
+
+# Запустить приложение через VPN
+sudo vpnwall run Arc
+
+# Проверить статус
+sudo vpnwall status
+
+# Задать VPN-интерфейс
+sudo vpnwall set-interface utun3
+
+# Отключить / удалить
+sudo vpnwall disable
+sudo vpnwall remove Arc
+```
+
+## ■ Лицензия
 
 MIT © [pluttan](https://github.com/pluttan)
