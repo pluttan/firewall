@@ -1,14 +1,9 @@
-![Header](header.png)
-
 <div align="center">
 
 # vpnwall
 
 **macOS VPN kill-switch using per-app user isolation**
 
-[![License](https://img.shields.io/badge/license-MIT-2C2C2C?style=for-the-badge&labelColor=1E1E1E)](LICENSE)
-[![Python](https://img.shields.io/badge/python-3.10+-2C2C2C?style=for-the-badge&logo=python&labelColor=1E1E1E)]()
-[![macOS](https://img.shields.io/badge/macos-10.15+-2C2C2C?style=for-the-badge&logo=apple&labelColor=1E1E1E)]()
 
 </div>
 
@@ -26,12 +21,36 @@ Forces selected applications to route traffic exclusively through a VPN interfac
 
 ## ■ Stack
 
+<div align="center">
+
 | Component | Technology |
 |-----------|------------|
 | CLI | Python 3.10+ |
 | Firewall | macOS pf (packet filter) |
 | Config | JSON |
 | Autostart | launchd (plist) |
+
+</div>
+
+## ■ How It Works
+
+```
+1. Add an app — creates a dedicated `_vpnwall_` system user and registers it in config.json.
+2. Enable firewall — loads pf rules that restrict each app user's TCP/UDP traffic to the VPN interface only.
+3. Run the app — launches it under its dedicated isolated system user.
+4. Kill-switch — if the VPN disconnects, pf blocks all outbound traffic for configured app users.
+5. Boot persistence — LaunchDaemon auto-enables the firewall rules on every system start.
+```
+
+## ■ Screenshots
+
+<div align="center">
+
+![Screenshot](screenshots/main.png)
+
+*Main interface showing VPN kill-switch status and configured apps*
+
+</div>
 
 ## ■ Usage
 
@@ -55,10 +74,6 @@ sudo vpnwall set-interface utun3
 sudo vpnwall disable
 sudo vpnwall remove Arc
 ```
-
-## ■ Screenshots
-
-![Screenshot](screenshots/main.png)
 
 ## ■ License
 
